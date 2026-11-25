@@ -1,3 +1,4 @@
+
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -13,9 +14,11 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.html',
 })
 export class Login {
+
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private router = inject(Router);
+
   error = '';
   info = '';
 
@@ -23,6 +26,8 @@ export class Login {
     username: ['', Validators.required],
     password: ['', Validators.required],
   });
+
+  // INICIAR SESION
 
   submit() {
     this.error = '';
@@ -34,31 +39,51 @@ export class Login {
     }
 
     const { username, password } = this.form.getRawValue();
+
     this.auth.login(username, password).subscribe({
+
       next: () => {
-        if (this.auth.isAdmin()) this.router.navigateByUrl('/admin');
-        else this.router.navigateByUrl('/inicio');
+        if (this.auth.isAdmin()) {
+          this.router.navigateByUrl('/admin');
+        } else {
+          this.router.navigateByUrl('/inicio');
+        }
       },
+
       error: (err: HttpErrorResponse) => {
-        if (err instanceof TimeoutError) this.error = 'La API tardó demasiado en responder. Inténtalo de nuevo.';
+
+        if (err instanceof TimeoutError) {
+          this.error = 'La API tardó demasiado en responder. Inténtalo de nuevo.';
+        }
         else if (err.status === 403) {
           this.error = 'Solo johnd y kevinryan pueden iniciar sesión.';
         }
         else if (err.status === 401 || err.status === 400) {
           this.error = 'Usuario o contraseña incorrectos.';
         }
-        else if (err.status === 0) this.error = 'Error de conexión con la API.';
-        else this.error = 'Error del servidor: ' + err.status;
+        else if (err.status === 0) {
+          this.error = 'Error de conexión con la API.';
+        }
+        else {
+          this.error = 'Error del servidor: ' + err.status;
+        }
+
       }
+
     });
   }
+
+  // RECUPERAR CONTRASEÑA
 
   forgot() {
     this.info =
       'Para recuperar el acceso, comunícate con Vet-Kamur en soporte@vetkamur.mx o al 271 123 4567.';
   }
 
+  // BOTONES GOOGLE Y APPLE SIN MENSAJE
+
   social(provider: string) {
-    this.info = `El acceso con ${provider} no está disponible mediante FakeStore API.`;
+    this.info = '';
   }
+
 }

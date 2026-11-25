@@ -1,0 +1,51 @@
+<section class="page-section py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <span class="text-success text-uppercase fw-semibold small">Perfil veterinario</span>
+        <h1 class="h2 fw-bold mb-4">Mis mascotas</h1>
+        <div class="row g-3">
+          <div class="col-md-6" *ngFor="let p of pets">
+            <div class="content-card p-4 h-100">
+              <div class="d-flex align-items-center gap-3">
+                <div class="pet-avatar"><i class="bi bi-heart-fill"></i></div>
+                <div>
+                  <h2 class="h4 fw-bold mb-1">{{ p.name }}</h2>
+                  <div class="text-secondary">{{ p.type }} · {{ p.breed }}</div>
+                  <small class="text-secondary">{{ p.age }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="content-card p-4">
+          <h2 class="h4 fw-bold">Agregar mascota</h2>
+          <form #petForm="ngForm" (ngSubmit)="add()">
+            <label for="petName" class="form-label fw-semibold mt-2">Nombre</label>
+            <input
+              id="petName"
+              name="petName"
+              [(ngModel)]="name"
+              class="form-control"
+              placeholder="Nombre de la mascota"
+              minlength="2"
+              maxlength="50"
+              required
+            />
+            <label for="petType" class="form-label fw-semibold mt-3">Tipo</label>
+            <select id="petType" name="petType" [(ngModel)]="type" class="form-select" required>
+              <option>Perro</option>
+              <option>Gato</option>
+              <option>Otro</option>
+            </select>
+            <button class="btn btn-success w-100 mt-4" type="submit" [disabled]="petForm.invalid">
+              Agregar mascota
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

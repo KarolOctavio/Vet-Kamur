@@ -1,0 +1,62 @@
+<section class="page-section py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <span class="text-success text-uppercase fw-semibold small">Atención presencial</span>
+        <h1 class="h2 fw-bold mb-4">Sucursales</h1>
+        <div class="search-panel mb-4">
+          <i class="bi bi-search"></i
+          ><input
+            [(ngModel)]="q"
+            class="form-control border-0 bg-transparent"
+            placeholder="Buscar sucursal" aria-label="Buscar sucursal" maxlength="80"
+          />
+        </div>
+        <div class="map-card mb-4">
+          <div class="map-grid"></div>
+          <div class="map-pin pin-1"><i class="bi bi-geo-alt-fill"></i></div>
+          <div class="map-pin pin-2"><i class="bi bi-geo-alt-fill"></i></div>
+          <div class="map-pin pin-3"><i class="bi bi-geo-alt-fill"></i></div>
+        </div>
+        <div class="d-grid gap-3">
+          <button *ngFor="let b of filtered" class="branch-row text-start" (click)="selected = b">
+            <div class="icon-circle small-icon"><i class="bi bi-geo-alt"></i></div>
+            <div class="flex-grow-1">
+              <h2 class="h5 fw-bold mb-1">{{ b.name }}</h2>
+              <div class="text-secondary small">{{ b.address }}</div>
+            </div>
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="content-card p-4 sticky-lg-top branch-detail">
+          <img
+            src="imagenes/perros.jpg"
+            alt="Clínica veterinaria"
+            class="branch-photo mb-4"
+          /><ng-container *ngIf="selected; else selectHint"
+            ><span class="text-success small fw-semibold text-uppercase"
+              >Sucursal seleccionada</span
+            >
+            <h2 class="h3 fw-bold mt-2">{{ selected.name }}</h2>
+            <p class="text-secondary">{{ selected.address }}</p>
+            <div class="detail-line">
+              <i class="bi bi-clock"></i><span>{{ selected.hours }}</span>
+            </div>
+            <div class="detail-line">
+              <i class="bi bi-geo-alt-fill"></i><span>{{ selected.distance }}, Veracruz</span>
+            </div>
+            
+            </ng-container
+          ><ng-template #selectHint>
+            <h2 class="h4 fw-bold">Selecciona una sucursal</h2>
+            <p class="text-secondary mb-0">
+              Haz clic en una ubicación para consultar sus datos.
+            </p></ng-template
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,24 @@
+<section class="page-section py-5">
+  <div class="container narrow-container">
+    <div class="content-card p-4 p-md-5">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <div class="account-avatar"><i class="bi bi-person"></i></div>
+        <div>
+          <span class="text-success text-uppercase fw-semibold small">Mi cuenta</span>
+          <h1 class="h3 fw-bold mb-0">
+            {{ user ? (user.name.firstname + ' ' + user.name.lastname) : auth.currentUsername() }}
+          </h1>
+        </div>
+      </div>
+      <p *ngIf="loading" class="text-secondary">Cargando datos de la API...</p>
+      <p *ngIf="error" class="text-danger">{{ error }}</p>
+      <div class="detail-grid" *ngIf="user">
+        <span>Correo</span><strong>{{ user?.email || 'No disponible' }}</strong
+        ><span>Teléfono</span><strong>{{ user?.phone || 'No disponible' }}</strong
+        ><span>Ciudad</span><strong>{{ user?.address?.city || 'No registrada' }}</strong
+        ><span>Calle</span><strong>{{ user?.address?.street || 'No registrada' }}</strong>
+      </div>
+      <button class="btn btn-outline-danger w-100 mt-4" (click)="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+</section>

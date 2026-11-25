@@ -1,0 +1,138 @@
+<nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm main-navbar">
+  <div class="container py-1">
+    <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" [routerLink]="auth.isAdmin() ? '/admin' : '/'">
+      <img src="imagenes/LogoP.png" alt="Logo Vet-Kamur" width="48" height="48" class="brand-logo" />
+      <span>Vet-Kamur</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+      aria-controls="mainNav" aria-expanded="false" aria-label="Abrir navegación">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+
+      <ng-container *ngIf="auth.isAdmin(); else standardNavigation">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-1">
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/">
+              Inicio
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/citas" routerLinkActive="active">
+              Citas
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/sucursales">
+              Sucursales
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/tienda">
+              Tienda
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/soporte">
+              Soporte
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+              Panel Admin
+            </a>
+          </li>
+
+        </ul>
+
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <span class="badge rounded-pill bg-light text-success border px-3 py-2 fs-6">
+            <i class="bi bi-shield-check me-2"></i>
+            ¡Hola, {{ auth.currentName() }}!
+          </span>
+
+
+          <a routerLink="/carrito" class="btn btn-light position-relative border" aria-label="Carrito">
+            <i class="bi bi-cart3"></i>
+            <span *ngIf="cart.totalItems() > 0"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">{{ cart.totalItems() }}</span>
+          </a>
+          <a routerLink="/cuenta" class="btn btn-outline-success d-none d-md-inline-flex align-items-center gap-2">
+            <i class="bi bi-person-circle"></i> Cuenta
+          </a>
+
+          <button class="btn btn-success" type="button" (click)="logout()">
+            Salir
+          </button>
+        </div>
+      </ng-container>
+
+
+      <ng-template #standardNavigation>
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-1">
+          <ng-container *ngIf="auth.isUser(); else publicNavigation">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/inicio" routerLinkActive="active">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/citas" routerLinkActive="active">Citas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/sucursales" routerLinkActive="active">Sucursales</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/tienda" routerLinkActive="active">Tienda</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/" fragment="contactanos">Soporte</a>
+            </li>
+          </ng-container>
+
+          <ng-template #publicNavigation>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/inicio" routerLinkActive="active">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/tienda" routerLinkActive="active">Tienda</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/sucursales" routerLinkActive="active">Sucursales</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/" fragment="contactanos">Contáctanos</a>
+            </li>
+          </ng-template>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <ng-container *ngIf="auth.isUser(); else guestButtons">
+            <span class="badge rounded-pill bg-light text-success border px-3 py-3 fs-6">
+              <i class="bi bi-person-circle me-2"></i>
+              ¡Hola, {{ auth.currentName() }}!
+            </span>
+            <a routerLink="/carrito" class="btn btn-light position-relative border" aria-label="Carrito">
+              <i class="bi bi-cart3"></i>
+              <span *ngIf="cart.totalItems() > 0"
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">{{
+                cart.totalItems() }}</span>
+            </a>
+            <a routerLink="/cuenta" class="btn btn-outline-success d-none d-md-inline-flex align-items-center gap-2">
+              <i class="bi bi-person-circle"></i> Cuenta
+            </a>
+            <button class="btn btn-success" type="button" (click)="logout()">Salir</button>
+          </ng-container>
+
+          <ng-template #guestButtons></ng-template>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</nav>

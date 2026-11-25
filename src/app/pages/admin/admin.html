@@ -1,0 +1,478 @@
+<section class="page-section admin-page py-5">
+  <div class="container">
+    <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-end gap-3 mb-4">
+      <div>
+        <span class="text-success fw-semibold text-uppercase small">Panel administrativo</span>
+        <h1 class="display-6 fw-bold mb-1">Administración general de Vet-Kamur</h1>
+        <p class="text-secondary mb-0">
+          Gestiona inventario, precios, citas, usuarios, ventas y solicitudes de contacto.
+        </p>
+      </div>
+    </div>
+
+    <!-- Distribución del panel: menú lateral y contenido -->
+    <div class="row g-4">
+
+      <!-- MENÚ LATERAL -->
+      <div class="col-lg-3 col-xl-3">
+        <aside class="admin-sidebar p-3">
+          <h2 class="h6 fw-bold mb-3">Menú administrativo</h2>
+
+          <nav class="d-grid gap-2" aria-label="Navegación del panel administrativo">
+            <button class="admin-menu-button" type="button" (click)="scrollToSection('resumen')">
+              <i class="bi bi-grid"></i> Resumen
+            </button>
+            <button class="admin-menu-button" type="button" (click)="scrollToSection('inventario')">
+              <i class="bi bi-box-seam"></i> Inventario
+            </button>
+            <button class="admin-menu-button" type="button" (click)="scrollToSection('citas-admin')">
+              <i class="bi bi-calendar2-check"></i> Citas
+            </button>
+            <button class="admin-menu-button" type="button" (click)="scrollToSection('usuarios')">
+              <i class="bi bi-people"></i> Usuarios
+            </button>
+            <button class="admin-menu-button" type="button" (click)="scrollToSection('ventas')">
+              <i class="bi bi-cash-coin"></i> Ventas
+            </button>
+            <button class="admin-menu-button" type="button" (click)="scrollToSection('soporte-admin')">
+              <i class="bi bi-headset"></i> Soporte
+            </button>
+          </nav>
+        </aside>
+      </div>
+
+      <!-- CONTENIDO DEL PANEL: se conservan todos los apartados originales -->
+      <div class="col-lg-9 col-xl-9">
+
+        <div id="resumen" class="row g-4 mb-5 admin-anchor-section">
+          <div class="col-sm-6 col-xl-3">
+            <article class="admin-stat-card h-100">
+              <div class="admin-stat-icon"><i class="bi bi-cash-coin"></i></div>
+              <span>Ventas acumuladas</span>
+              <strong>{{ totalRevenue | currency: 'MXN' : 'symbol-narrow' : '1.2-2' }}</strong>
+              <small>{{ sales.length }} operaciones registradas</small>
+            </article>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <article class="admin-stat-card h-100">
+              <div class="admin-stat-icon"><i class="bi bi-people"></i></div>
+              <span>Usuarios registrados</span>
+              <strong>{{ registeredUsers }}</strong>
+              <small>Clientes registrados en el sistema</small>
+            </article>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <article class="admin-stat-card h-100">
+              <div class="admin-stat-icon"><i class="bi bi-calendar2-check"></i></div>
+              <span>Citas</span>
+              <strong>{{ appointments.length }}</strong>
+              <small>{{ attendedAppointments }} atendidas · {{ pendingAppointments }} pendientes</small>
+            </article>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <article class="admin-stat-card h-100">
+              <div class="admin-stat-icon"><i class="bi bi-box-seam"></i></div>
+              <span>Inventario</span>
+              <strong>{{ products.length }}</strong>
+              <small>{{ lowStockProducts }} productos con 5 o menos unidades</small>
+            </article>
+          </div>
+        </div>
+
+        <section id="inventario" class="admin-anchor-section mb-5">
+          <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-3">
+            <div>
+              <span class="text-success small text-uppercase fw-semibold">Tienda</span>
+              <h2 class="h2 fw-bold mb-1">Inventario y precios</h2>
+              <p class="text-secondary mb-0">
+                Agrega, elimina o modifica productos, medicamentos, existencias y precios.
+              </p>
+            </div>
+            <div class="text-lg-end">
+              <span class="text-secondary small d-block">Valor estimado del inventario</span>
+              <strong class="h4">{{ inventoryValue | currency: 'MXN' : 'symbol-narrow' : '1.2-2' }}</strong>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-xl-5">
+              <div id="product-form" class="content-card p-4 admin-anchor-section">
+                <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                  <div>
+                    <span class="text-success small text-uppercase fw-semibold">
+                      {{ editingProductId !== null ? 'Modificar producto' : 'Nuevo producto' }}
+                    </span>
+                    <h3 class="h4 fw-bold mb-0">
+                      {{ editingProductId !== null ? 'Editar información' : 'Agregar al catálogo' }}
+                    </h3>
+                  </div>
+                  <button *ngIf="editingProductId !== null" type="button" class="btn btn-sm btn-light"
+                    (click)="cancelProductEdit()">
+                    Cancelar
+                  </button>
+                </div>
+
+                <form (ngSubmit)="saveProduct()" #inventoryForm="ngForm">
+                  <div class="mb-3">
+                    <label for="adminProductName" class="form-label fw-semibold">Nombre</label>
+                    <input id="adminProductName" name="productName" [(ngModel)]="productDraft.name" class="form-control"
+                      maxlength="120" required />
+                  </div>
+
+                  <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                      <label for="adminProductCategory" class="form-label fw-semibold">Categoría</label>
+                      <select id="adminProductCategory" name="productCategory" [(ngModel)]="productDraft.category"
+                        class="form-select" required>
+                        <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+                      </select>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="adminProductPrice" class="form-label fw-semibold">Precio</label>
+                      <input id="adminProductPrice" name="productPrice" type="number" min="0" step="0.01"
+                        [(ngModel)]="productDraft.price" class="form-control" required />
+                    </div>
+                    <div class="col-md-3">
+                      <label for="adminProductStock" class="form-label fw-semibold">Cantidad</label>
+                      <input id="adminProductStock" name="productStock" type="number" min="0" step="1"
+                        [(ngModel)]="productDraft.stock" class="form-control" required />
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="adminProductImage" class="form-label fw-semibold">URL de imagen <span
+                        class="text-secondary fw-normal">(opcional)</span></label>
+                    <input id="adminProductImage" name="productImage" type="url" [(ngModel)]="productDraft.image"
+                      class="form-control" maxlength="500" placeholder="https://..." />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="adminProductDescription" class="form-label fw-semibold">Descripción</label>
+                    <textarea id="adminProductDescription" name="productDescription"
+                      [(ngModel)]="productDraft.description" class="form-control" rows="4" minlength="10"
+                      maxlength="500" required></textarea>
+                  </div>
+
+                  <div class="alert alert-success py-2" *ngIf="productMessage">{{ productMessage }}</div>
+
+                  <button class="btn btn-success w-100" type="submit" [disabled]="inventoryForm.invalid">
+                    <i class="bi me-2" [class.bi-plus-circle]="editingProductId === null"
+                      [class.bi-check2-circle]="editingProductId !== null"></i>
+                    {{ editingProductId !== null ? 'Guardar cambios' : 'Agregar producto' }}
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <div class="col-xl-7">
+              <div class="content-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+                  <div>
+                    <span class="text-success small text-uppercase fw-semibold">Existencias</span>
+                    <h3 class="h4 fw-bold mb-0">Productos disponibles</h3>
+                  </div>
+                  <span class="badge text-bg-light border">{{ products.length }} productos</span>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table align-middle admin-table mb-0">
+                    <thead>
+                      <tr>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th class="text-end">Precio</th>
+                        <th class="text-center">Cantidad</th>
+                        <th class="text-end">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let product of products">
+                        <td>
+                          <div class="d-flex align-items-center gap-2">
+                            <img [src]="product.image" [alt]="product.name" class="admin-product-thumb"
+                              (error)="catalog.imageFallback($event, product)" />
+                            <strong>{{ product.name }}</strong>
+                          </div>
+                        </td>
+                        <td>{{ product.category }}</td>
+                        <td class="text-end fw-semibold">{{ product.price | currency: 'MXN' : 'symbol-narrow' : '1.2-2'
+                          }}</td>
+                        <td class="text-center">
+                          <span class="badge rounded-pill" [class.text-bg-danger]="product.stock === 0"
+                            [class.text-bg-warning]="product.stock > 0 && product.stock <= 5"
+                            [class.text-bg-success]="product.stock > 5">
+                            {{ product.stock }}
+                          </span>
+                        </td>
+                        <td class="text-end text-nowrap">
+                          <button type="button" class="btn btn-sm btn-outline-success me-1"
+                            (click)="editProduct(product)">
+                            <i class="bi bi-pencil"></i>
+                          </button>
+                          <button type="button" class="btn btn-sm btn-outline-danger" (click)="deleteProduct(product)">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="products.length === 0">
+                        <td colspan="5" class="text-center text-secondary py-4">No hay productos registrados.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="citas-admin" class="admin-anchor-section mb-5">
+          <div class="content-card p-4">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
+              <div>
+                <span class="text-success small text-uppercase fw-semibold">Citas</span>
+                <h2 class="h2 fw-bold mb-1">Control de atención</h2>
+                <p class="text-secondary mb-0">Revisa y cambia el estado de las citas atendidas, pendientes o
+                  canceladas.</p>
+              </div>
+              <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-sm" [class.btn-success]="appointmentFilter === 'Todas'"
+                  [class.btn-outline-success]="appointmentFilter !== 'Todas'"
+                  (click)="appointmentFilter = 'Todas'">Todas</button>
+                <button class="btn btn-sm" [class.btn-success]="appointmentFilter === 'Próxima'"
+                  [class.btn-outline-success]="appointmentFilter !== 'Próxima'"
+                  (click)="appointmentFilter = 'Próxima'">Pendientes</button>
+                <button class="btn btn-sm" [class.btn-success]="appointmentFilter === 'Completada'"
+                  [class.btn-outline-success]="appointmentFilter !== 'Completada'"
+                  (click)="appointmentFilter = 'Completada'">Atendidas</button>
+                <button class="btn btn-sm" [class.btn-success]="appointmentFilter === 'Cancelada'"
+                  [class.btn-outline-success]="appointmentFilter !== 'Cancelada'"
+                  (click)="appointmentFilter = 'Cancelada'">Canceladas</button>
+              </div>
+            </div>
+
+            <div class="admin-appointment-summary mb-4">
+              <div><span>Atendidas</span><strong>{{ attendedAppointments }}</strong></div>
+              <div><span>Pendientes</span><strong>{{ pendingAppointments }}</strong></div>
+              <div><span>Canceladas</span><strong>{{ cancelledAppointments }}</strong></div>
+              <div><span>Total</span><strong>{{ appointments.length }}</strong></div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table align-middle admin-table mb-0">
+                <thead>
+                  <tr>
+                    <th>Mascota</th>
+                    <th>Servicio</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Veterinario</th>
+                    <th>Estado</th>
+                    <th class="text-end">Cambiar estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let appointment of filteredAppointments">
+                    <td><strong>{{ appointment.pet }}</strong><br /><small class="text-secondary">{{ appointment.petType
+                        }}</small></td>
+                    <td>{{ appointment.service }}</td>
+                    <td>{{ appointment.date | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ appointment.time }}</td>
+                    <td>{{ appointment.vet }}</td>
+                    <td><span class="badge" [ngClass]="appointmentBadgeClass(appointment.status)">{{
+                        appointmentLabel(appointment.status) }}</span></td>
+                    <td class="text-end text-nowrap">
+                      <button type="button" class="btn btn-sm btn-outline-success me-1"
+                        (click)="setAppointmentStatus(appointment.id, 'Completada')" title="Marcar atendida"><i
+                          class="bi bi-check2"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline-warning me-1"
+                        (click)="setAppointmentStatus(appointment.id, 'Próxima')" title="Marcar pendiente"><i
+                          class="bi bi-clock"></i></button>
+                      <button type="button" class="btn btn-sm btn-outline-danger"
+                        (click)="setAppointmentStatus(appointment.id, 'Cancelada')" title="Cancelar"><i
+                          class="bi bi-x-lg"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="usuarios" class="admin-anchor-section mb-5">
+          <div class="content-card p-4">
+            <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+              <div>
+                <span class="text-success small text-uppercase fw-semibold">Clientes</span>
+                <h2 class="h2 fw-bold mb-1">Usuarios registrados</h2>
+                <p class="text-secondary mb-0">Información general de los clientes registrados, sin mostrar contraseñas.
+                </p>
+              </div>
+              <span class="badge text-bg-light border">{{ users.length }} usuarios</span>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table align-middle admin-table mb-0">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Ciudad</th>
+                    <th>Dirección</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of users">
+                    <td><strong>{{ user.firstName }} {{ user.lastName }}</strong></td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>{{ user.address?.city || 'Sin registrar' }}</td>
+                    <td>
+                      <span *ngIf="user.address; else noAddress">
+                        {{ user.address?.street }} {{ user.address?.exterior }}, {{ user.address?.neighborhood }}, CP {{
+                        user.address?.postalCode }}
+                      </span>
+                      <ng-template #noAddress>Sin registrar</ng-template>
+                    </td>
+                  </tr>
+                  <tr *ngIf="users.length === 0">
+                    <td colspan="5" class="text-center text-secondary py-4">Aún no hay usuarios registrados.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="ventas" class="admin-anchor-section mb-5">
+          <div class="row g-4">
+            <div class="col-xl-7">
+              <div class="content-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
+                  <div>
+                    <span class="text-success small text-uppercase fw-semibold">Ingresos</span>
+                    <h2 class="h4 fw-bold mb-1">Ventas por método de pago</h2>
+                  </div>
+                  <div class="text-end">
+                    <span class="text-secondary small d-block">Ticket promedio</span>
+                    <strong>{{ averageTicket | currency: 'MXN' : 'symbol-narrow' : '1.2-2' }}</strong>
+                  </div>
+                </div>
+                <div class="admin-progress-row" *ngFor="let stat of paymentStats">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-semibold">{{ stat.method }}</span>
+                    <span class="text-secondary">{{ stat.amount | currency: 'MXN' : 'symbol-narrow' : '1.0-0' }} · {{
+                      stat.percent }}%</span>
+                  </div>
+                  <div class="progress admin-progress" role="progressbar" [attr.aria-valuenow]="stat.percent"
+                    aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar bg-success" [style.width.%]="stat.percent"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-5">
+              <div class="content-card p-4 h-100">
+                <span class="text-success small text-uppercase fw-semibold">Tienda</span>
+                <h2 class="h4 fw-bold mb-3">Productos vendidos</h2>
+                <div class="d-grid gap-3">
+                  <div class="admin-product-row" *ngFor="let product of topProducts">
+                    <div class="admin-product-rank"><i class="bi bi-bag-heart"></i></div>
+                    <div class="flex-grow-1">
+                      <strong class="d-block">{{ product.name }}</strong>
+                      <span class="text-secondary small">{{ product.units }} unidades</span>
+                    </div>
+                    <span class="fw-bold text-success">{{ product.amount | currency: 'MXN' : 'symbol-narrow' : '1.0-0'
+                      }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-card p-4 mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <span class="text-success small text-uppercase fw-semibold">Actividad</span>
+                <h2 class="h4 fw-bold mb-0">Historial de ventas</h2>
+              </div>
+              <span class="badge text-bg-light border">{{ sales.length }} ventas</span>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-middle admin-table mb-0">
+                <thead>
+                  <tr>
+                    <th>Folio</th>
+                    <th>Fecha</th>
+                    <th>Método</th>
+                    <th>Productos</th>
+                    <th class="text-end">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let sale of sales">
+                    <td>#{{ sale.id }}</td>
+                    <td>{{ sale.date | date: 'dd/MM/yyyy · HH:mm' }}</td>
+                    <td>{{ sale.method }}</td>
+                    <td>{{ sale.items.length }}</td>
+                    <td class="text-end fw-bold">{{ sale.total | currency: 'MXN' : 'symbol-narrow' : '1.2-2' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="soporte-admin" class="admin-anchor-section">
+          <div class="content-card p-4">
+            <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+              <div>
+                <span class="text-success small text-uppercase fw-semibold">Contacto</span>
+                <h2 class="h2 fw-bold mb-1">Solicitudes de ayuda</h2>
+                <p class="text-secondary mb-0">Mensajes enviados desde el formulario público de contacto.</p>
+              </div>
+              <span class="badge text-bg-light border">{{ newSupportRequests }} nuevas</span>
+            </div>
+
+            <div class="row g-3" *ngIf="supportRequests.length; else noSupportRequests">
+              <div class="col-lg-6" *ngFor="let request of supportRequests">
+                <article class="support-request-card h-100">
+                  <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+                    <div>
+                      <strong class="d-block">{{ request.subject }}</strong>
+                      <span class="text-secondary small">{{ request.name }} · {{ request.createdAt | date: 'dd/MM/yyyy
+                        HH:mm' }}</span>
+                    </div>
+                    <span class="badge" [class.text-bg-warning]="request.status === 'Nueva'"
+                      [class.text-bg-success]="request.status === 'Atendida'">{{ request.status }}</span>
+                  </div>
+                  <p class="mb-3">{{ request.details }}</p>
+                  <div class="small text-secondary mb-3">
+                    <div><i class="bi bi-envelope me-2"></i>{{ request.email }}</div>
+                    <div *ngIf="request.phone"><i class="bi bi-telephone me-2"></i>{{ request.phone }}</div>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <a class="btn btn-sm btn-outline-success" [href]="'mailto:' + request.email">Responder por
+                      correo</a>
+                    <button *ngIf="request.status === 'Nueva'" type="button" class="btn btn-sm btn-success"
+                      (click)="setSupportStatus(request, 'Atendida')">Marcar atendida</button>
+                    <button *ngIf="request.status === 'Atendida'" type="button" class="btn btn-sm btn-outline-secondary"
+                      (click)="setSupportStatus(request, 'Nueva')">Marcar nueva</button>
+                  </div>
+                </article>
+              </div>
+            </div>
+            <ng-template #noSupportRequests>
+              <div class="empty-state py-4">
+                <i class="bi bi-inbox"></i>
+                <h3 class="h5 fw-bold">No hay solicitudes de contacto</h3>
+                <p class="text-secondary mb-0">Los mensajes del formulario público aparecerán aquí.</p>
+              </div>
+            </ng-template>
+          </div>
+        </section>
+      </div> <!-- Fin del contenido del panel -->
+    </div> <!-- Fin de la fila del menú lateral -->
+  </div> <!-- Fin del contenedor principal -->
+</section>

@@ -1,0 +1,37 @@
+<section class="page-section py-5">
+  <div class="container narrow-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <span class="text-success text-uppercase fw-semibold small">Agenda</span>
+        <h1 class="h2 fw-bold mb-0">Mis citas</h1>
+      </div>
+      <a routerLink="/citas/agendar" class="btn btn-success"
+        ><i class="bi bi-plus-lg me-1"></i>Agendar</a
+      >
+    </div>
+    <div class="segmented mb-4">
+      <button [class.active]="tab === 'upcoming'" (click)="tab = 'upcoming'">Próximas</button
+      ><button [class.active]="tab === 'history'" (click)="tab = 'history'">Historial</button>
+    </div>
+    <div class="d-grid gap-3">
+      <a
+        *ngFor="let a of items"
+        [routerLink]="['/citas', a.id]"
+        class="appointment-row text-decoration-none"
+        ><div class="date-tile">
+          <strong>{{ a.date | date: 'dd' }}</strong
+          ><span>{{ a.date | date: 'MMM' }}</span>
+        </div>
+        <div class="flex-grow-1">
+          <h2 class="h5 fw-bold text-dark mb-1">{{ a.service }}</h2>
+          <div class="text-secondary small">{{ a.pet }} · {{ a.time }} · {{ a.status }}</div>
+        </div>
+        <i class="bi bi-chevron-right text-secondary"></i
+      ></a>
+      <div class="empty-state" *ngIf="items.length === 0">
+        <i class="bi bi-calendar-x"></i>
+        <p class="mb-0">No hay citas en esta sección.</p>
+      </div>
+    </div>
+  </div>
+</section>

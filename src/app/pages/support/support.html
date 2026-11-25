@@ -1,0 +1,106 @@
+<section class="page-section support-page py-5">
+  <div class="container">
+    <div class="row g-4 align-items-stretch">
+      <div class="col-xl-4">
+        <div class="content-card support-intro p-4 p-lg-5 h-100">
+          <span class="text-success fw-semibold text-uppercase small">Centro de ayuda</span>
+          <h1 class="display-6 fw-bold mt-2 mb-3">Soporte Vet-Kamur</h1>
+          <p class="text-secondary mb-4">
+            Si necesitas información, ayuda con una cita, una compra o cualquier función de la plataforma,
+            puedes comunicarte con nosotros sin necesidad de registrarte.
+          </p>
+
+          <div class="d-grid gap-3">
+            <a class="support-contact-card text-decoration-none" [href]="'mailto:' + supportEmail">
+              <span class="support-icon"><i class="bi bi-envelope"></i></span>
+              <span>
+                <small>Correo electrónico</small>
+                <strong>{{ supportEmail }}</strong>
+              </span>
+              <i class="bi bi-arrow-up-right ms-auto"></i>
+            </a>
+
+            <a class="support-contact-card text-decoration-none" [href]="'tel:' + supportPhoneLink">
+              <span class="support-icon"><i class="bi bi-telephone"></i></span>
+              <span>
+                <small>Atención telefónica</small>
+                <strong>{{ supportPhoneDisplay }}</strong>
+              </span>
+              <i class="bi bi-telephone-outbound ms-auto"></i>
+            </a>
+          </div>
+
+          <div class="support-hours mt-4">
+            <i class="bi bi-clock me-2"></i>
+            <span>Lunes a viernes de 9:00 a.m. a 6:00 p.m. · Sábado hasta las 3:30 p.m.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-8">
+        <div class="content-card p-4 p-lg-5 h-100">
+          <div class="mb-4">
+            <span class="text-success fw-semibold text-uppercase small">Escríbenos</span>
+            <h2 class="h2 fw-bold mt-2 mb-2">Cuéntanos cómo podemos ayudarte</h2>
+            <p class="text-secondary mb-0">
+              Al enviar el formulario se abrirá tu aplicación de correo con la información lista para enviarse.
+            </p>
+          </div>
+
+          <form [formGroup]="form" (ngSubmit)="sendEmail()">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="supportName" class="form-label fw-semibold">Nombre</label>
+                <input id="supportName" class="form-control" formControlName="name" minlength="2" maxlength="100" autocomplete="name" required />
+                <div class="form-error" *ngIf="form.controls.name.touched && form.controls.name.invalid">
+                  Ingresa tu nombre.
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="supportEmail" class="form-label fw-semibold">Correo</label>
+                <input id="supportEmail" type="email" class="form-control" formControlName="email" maxlength="120" autocomplete="email" required />
+                <div class="form-error" *ngIf="form.controls.email.touched && form.controls.email.invalid">
+                  Ingresa un correo válido.
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="supportSubject" class="form-label fw-semibold">Asunto</label>
+                <input id="supportSubject" class="form-control" formControlName="subject" placeholder="Ej. Necesito ayuda con una cita" minlength="3" maxlength="120" required />
+                <div class="form-error" *ngIf="form.controls.subject.touched && form.controls.subject.invalid">
+                  Escribe el asunto de tu solicitud.
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="supportDetails" class="form-label fw-semibold">Mensaje</label>
+                <textarea
+                  id="supportDetails"
+                  class="form-control support-textarea"
+                  rows="7"
+                  minlength="10"
+                  maxlength="1000"
+                  required
+                  formControlName="details"
+                  placeholder="Describe el problema o la duda que tienes"
+                ></textarea>
+                <div class="form-error" *ngIf="form.controls.details.touched && form.controls.details.invalid">
+                  Escribe al menos 10 caracteres para poder ayudarte mejor.
+                </div>
+              </div>
+            </div>
+
+            <div class="alert alert-success mt-3 mb-0" *ngIf="message">{{ message }}</div>
+
+            <div class="d-flex flex-column flex-sm-row gap-3 mt-4">
+              <button class="btn btn-success px-4 py-2" type="submit">
+                <i class="bi bi-send me-2"></i>Preparar correo de soporte
+              </button>
+              <a class="btn btn-outline-success px-4 py-2" [href]="'tel:' + supportPhoneLink">
+                <i class="bi bi-telephone me-2"></i>Llamar a soporte
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

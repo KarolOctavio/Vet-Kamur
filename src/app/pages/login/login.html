@@ -1,0 +1,76 @@
+<section class="auth-shell py-5">
+  <div class="container">
+    <div class="row g-0 auth-card shadow-lg overflow-hidden mx-auto">
+      <div class="col-lg-6 auth-visual d-none d-lg-flex align-items-end p-5 text-white">
+        <div>
+          <span class="eyebrow bg-white text-success px-3 py-2 rounded-pill">Vet-Kamur</span>
+          <h1 class="display-5 fw-bold mt-4">Bienvenido de nuevo</h1>
+          <p class="fs-5 mb-0">Administra citas, mascotas y compras desde tu cuenta.</p>
+        </div>
+      </div>
+      <div class="col-lg-6 bg-white p-4 p-md-5">
+        <div class="text-center mb-4">
+          <img src="imagenes/LogoP.png" width="78" height="78" alt="Logo Vet-Kamur" />
+          <h2 class="fw-bold mt-2">Iniciar sesión</h2>
+          <p class="text-secondary">Accede a tu perfil de Vet-Kamur</p>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <div class="mb-3">
+            <label for="loginEmail" class="form-label fw-semibold">Nombre de usuario</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-person"></i></span>
+              <input
+                id="loginEmail"
+                type="text"
+                class="form-control"
+                formControlName="username"
+                placeholder="Nombre de usuario"
+                autocomplete="username"
+                required
+              />
+            </div>
+            <div class="form-error" *ngIf="form.controls.username.touched && form.controls.username.invalid">
+              Ingresa tu nombre de usuario.
+            </div>
+          </div>
+          <div class="mb-2">
+            <label for="loginPassword" class="form-label fw-semibold">Contraseña</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-lock"></i></span>
+              <input
+                id="loginPassword"
+                type="password"
+                class="form-control"
+                formControlName="password"
+                placeholder="Ingresa tu contraseña"
+                autocomplete="current-password"
+                required
+              />
+            </div>
+            <div class="form-error" *ngIf="form.controls.password.touched && form.controls.password.invalid">
+              Ingresa tu contraseña.
+            </div>
+          </div>
+          <div class="text-end mb-3">
+            <button type="button" class="btn btn-link link-success p-0 text-decoration-none" (click)="forgot()">
+              ¿Olvidaste tu contraseña?
+            </button>
+          </div>
+          <div class="alert alert-danger py-2" *ngIf="error">{{ error }}</div>
+          <div class="alert alert-success py-2" *ngIf="info">{{ info }}</div>
+          <button class="btn btn-success w-100 py-2 fw-semibold" type="submit">Iniciar sesión</button>
+          <div class="divider my-4"><span>o</span></div>
+          <button class="btn btn-outline-secondary w-100 mb-2" type="button" (click)="social('Google')">
+            <i class="bi bi-google me-2"></i>Continuar con Google
+          </button>
+          <button class="btn btn-outline-secondary w-100" type="button" (click)="social('Apple')">
+            <i class="bi bi-apple me-2"></i>Continuar con Apple
+          </button>
+          <p class="text-center mt-4 mb-0">
+            ¿No tienes cuenta? <a routerLink="/registro" class="link-success fw-bold">Regístrate</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,187 @@
+
+<section class="page-section py-5">
+
+  <div class="container narrow-container">
+
+    <!-- REGRESAR A PAGO -->
+
+    <a routerLink="/pago" class="btn btn-light mb-3">
+      <i class="bi bi-arrow-left me-1"></i>
+      Pago
+    </a>
+
+    <!-- FORMULARIO DE PAGO CON TARJETA -->
+
+    <div class="content-card p-4 p-md-5 mx-auto"
+         *ngIf="!paid; else success">
+
+      <div class="mb-4">
+
+        <span class="text-success text-uppercase fw-semibold small">
+          Pago seguro de demostración
+        </span>
+
+        <h1 class="h2 fw-bold mb-0">
+          Pago con tarjeta
+        </h1>
+
+        <p class="text-secondary">
+          Total:
+          {{ cart.total() | currency: 'MXN' : 'symbol-narrow' : '1.2-2' }}
+        </p>
+
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <!-- NUMERO DE TARJETA -->
+
+        <div class="mb-3">
+
+          <label for="cardNumber" class="form-label fw-semibold">
+            Número de tarjeta
+          </label>
+
+          <input
+            id="cardNumber"
+            type="text"
+            minlength="16"
+            maxlength="16"
+            pattern="[0-9]{16}"
+            inputmode="numeric"
+            autocomplete="cc-number"
+            required
+            class="form-control"
+            formControlName="number"
+            placeholder="1234123412341234"
+          />
+
+        </div>
+
+        <div class="row g-3">
+
+          <!-- FECHA DE VENCIMIENTO -->
+
+          <div class="col-md-6">
+
+            <label for="cardExpiry" class="form-label fw-semibold">
+              MM/AA
+            </label>
+
+            <input
+              id="cardExpiry"
+              maxlength="5"
+              pattern="(0[1-9]|1[0-2])/[0-9]{2}"
+              autocomplete="cc-exp"
+              required
+              class="form-control"
+              formControlName="expiry"
+              placeholder="09/29"
+            />
+
+          </div>
+
+          <!-- CVV -->
+
+          <div class="col-md-6">
+
+            <label for="cardCvv" class="form-label fw-semibold">
+              CVV
+            </label>
+
+            <input
+              id="cardCvv"
+              minlength="3"
+              maxlength="4"
+              pattern="[0-9]{3,4}"
+              inputmode="numeric"
+              autocomplete="cc-csc"
+              required
+              class="form-control"
+              formControlName="cvv"
+              placeholder="123"
+            />
+
+          </div>
+
+          <!-- NOMBRE DEL TITULAR -->
+
+          <div class="col-12">
+
+            <label for="cardHolder" class="form-label fw-semibold">
+              Nombre del titular
+            </label>
+
+            <input
+              id="cardHolder"
+              class="form-control"
+              formControlName="holder"
+              placeholder="Nombre completo"
+              minlength="3"
+              maxlength="100"
+              autocomplete="cc-name"
+              required
+            />
+
+          </div>
+
+        </div>
+
+        <!-- MENSAJE DE VALIDACION -->
+
+        <div class="form-error mt-3"
+             *ngIf="form.invalid && form.touched">
+
+          Revisa los datos de la tarjeta.
+          Para la demostración usa 16 dígitos,
+          MM/AA y CVV de 3 o 4 dígitos.
+
+        </div>
+
+        <!-- BOTONES -->
+
+        <button type="submit"
+                class="btn btn-success w-100 py-3 mt-4">
+          Pagar
+        </button>
+
+        <a routerLink="/pago"
+           class="btn btn-outline-secondary w-100 py-2 mt-2">
+          Cancelar
+        </a>
+
+      </form>
+
+    </div>
+
+    <!-- CONFIRMACION DE PAGO -->
+
+    <ng-template #success>
+
+      <div class="success-card text-center p-4 p-md-5 mx-auto">
+
+        <div class="success-icon mx-auto mb-3">
+          <i class="bi bi-check-lg"></i>
+        </div>
+
+        <h1 class="h2 fw-bold">
+          Pago aprobado
+        </h1>
+
+        <p class="text-secondary">
+          La compra de demostración se registró correctamente.
+        </p>
+
+        <button type="button"
+                class="btn btn-success"
+                (click)="done()">
+          Regresar al inicio
+        </button>
+
+      </div>
+
+    </ng-template>
+
+  </div>
+
+</section>

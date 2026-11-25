@@ -1,0 +1,979 @@
+
+<!-- SUBMENU HORIZONTAL DE INICIO -->
+
+<nav class="inicio-submenu"
+     aria-label="Secciones de Inicio">
+
+  <div class="inicio-submenu-enlaces">
+
+    <a href="#nosotros">
+      Nosotros
+    </a>
+
+    <a href="#servicios">
+      Servicios
+    </a>
+
+    <a href="#recomendaciones">
+      Recomendaciones
+    </a>
+
+    <a href="#contactanos">
+      Contáctanos
+    </a>
+
+  </div>
+
+</nav>
+
+<!-- INICIO -->
+
+<section id="inicio" class="hero-section about-hero position-relative overflow-hidden">
+
+  <img src="imagenes/perros.jpg"
+       alt="Mascotas atendidas por Vet-Kamur"
+       class="hero-image w-100" />
+
+  <div class="hero-overlay"></div>
+
+  <div class="container-fluid px-3 px-md-4 px-xl-5 position-relative hero-content text-white py-5">
+
+    <div class="row align-items-center min-vh-50">
+
+      <div class="col-xl-7 col-lg-8 py-5" id="nosotros">
+
+        <span class="eyebrow bg-white text-success px-3 py-2 rounded-pill">
+          Nosotros
+        </span>
+
+        <h1 class="display-3 fw-bold mt-4 mb-3">
+          Vet-Kamur, cuidado integral para tus mascotas
+        </h1>
+
+        <p class="lead mb-4">
+          Atención veterinaria cercana, responsable y accesible, acompañada de herramientas digitales
+          que facilitan el cuidado diario de cada mascota.
+        </p>
+
+        <!-- VISITANTE -->
+
+        <div class="d-flex flex-wrap gap-3" *ngIf="!auth.loggedIn()">
+
+          <a routerLink="/login" class="btn btn-light btn-lg px-4">
+            Iniciar sesión
+          </a>
+
+          <a routerLink="/registro" class="btn btn-success btn-lg px-4">
+            Registrarme
+          </a>
+
+        </div>
+
+        <!-- CLIENTE -->
+
+        <div class="d-flex flex-wrap gap-3" *ngIf="auth.loggedIn()">
+
+          <a routerLink="/inicio" class="btn btn-success btn-lg px-4">
+            Inicio
+          </a>
+
+          <a routerLink="/citas/agendar" class="btn btn-light btn-lg px-4">
+            Agendar cita
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SERVICIOS VETERINARIOS -->
+
+<section id="servicios" class="public-services py-5"
+         aria-labelledby="servicesTitle">
+
+  <div class="container-fluid px-3 px-md-4 px-xl-5">
+
+    <div class="text-center mb-5">
+
+      <span class="text-black fw-semibold text-uppercase">
+        Servicios veterinarios
+      </span>
+
+      <h2 id="servicesTitle"
+          class="fs-2 fw-bold text-black mt-3 mb-3">
+        Atención para cada etapa del cuidado
+      </h2>
+
+      <p class="fs-5 text-black">
+        Conoce nuestros servicios veterinarios
+        y agenda una cita para tu mascota.
+      </p>
+
+    </div>
+
+    <div class="row g-4">
+
+      <!-- CONSULTA GENERAL -->
+
+      <div class="col-12 col-md-6">
+
+        <article class="border rounded-4 shadow-sm bg-white h-100 overflow-hidden d-flex flex-column">
+
+          <img src="https://i0.wp.com/puppis.blog/wp-content/uploads/2021/08/Las-mascotas-y-las-consultas-cardiologicas.jpg?resize=900%2C600&ssl=1"
+               alt="Consulta general veterinaria"
+               class="servicio-imagen"
+               loading="lazy">
+
+          <div class="p-4 d-flex flex-column flex-grow-1">
+
+            <h3 class="fs-3 fw-bold text-black mb-3">
+              Consulta general
+            </h3>
+
+            <p class="fs-5 text-black">
+              Cuidamos la salud de tu mascota mediante
+              una revisión veterinaria general.
+            </p>
+
+            <details class="servicio-detalles mb-4">
+
+              <summary>Ver detalles del servicio</summary>
+
+              <p class="text-black mt-3">
+                Valoración del estado general de la mascota,
+                revisión de síntomas, exploración física
+                y orientación sobre los siguientes cuidados.
+              </p>
+
+            </details>
+
+          </div>
+
+        </article>
+
+      </div>
+
+      <!-- VACUNACION -->
+
+      <div class="col-12 col-md-6">
+
+        <article class="border rounded-4 shadow-sm bg-white h-100 overflow-hidden d-flex flex-column">
+
+          <img src="https://masterpetss.com/cdn/shop/articles/brown-border-collie-dog-during-visit-in-vet-2022-03-17-04-25-37-utc_412c7dc5-a2df-4785-8e1e-8b53c2dda806_1024x.jpg?v=1789626550"
+               alt="Vacunación veterinaria"
+               class="servicio-imagen"
+               loading="lazy">
+
+          <div class="p-4 d-flex flex-column flex-grow-1">
+
+            <h3 class="fs-3 fw-bold text-black mb-3">
+              Vacunación
+            </h3>
+
+            <p class="fs-5 text-black">
+              Protegemos a tu mascota mediante
+              la prevención de enfermedades.
+            </p>
+
+            <details class="servicio-detalles mb-4">
+
+              <summary>Ver detalles del servicio</summary>
+
+              <p class="text-black mt-3">
+                Revisión del esquema preventivo,
+                aplicación de la vacuna correspondiente
+                y recomendaciones posteriores a la aplicación.
+              </p>
+
+            </details>
+
+          </div>
+
+        </article>
+
+      </div>
+
+      <!-- DESPARASITACION -->
+
+      <div class="col-12 col-md-6">
+
+        <article class="border rounded-4 shadow-sm bg-white h-100 overflow-hidden d-flex flex-column">
+
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQrWcBlMig2ylboDTW8oE9q9EfMuVwrEWo8X-WW07OktZJbzpqQAbxVRs6&s=10"
+               alt="Desparasitación veterinaria"
+               class="servicio-imagen"
+               loading="lazy">
+
+          <div class="p-4 d-flex flex-column flex-grow-1">
+
+            <h3 class="fs-3 fw-bold text-black mb-3">
+              Desparasitación
+            </h3>
+
+            <p class="fs-5 text-black">
+              Ayudamos a prevenir problemas relacionados
+              con los parásitos en las mascotas.
+            </p>
+
+            <details class="servicio-detalles mb-4">
+
+              <summary>Ver detalles del servicio</summary>
+
+              <p class="text-black mt-3">
+                Evaluación básica de edad y peso para orientar
+                el control antiparasitario y mantener
+                un calendario preventivo adecuado.
+              </p>
+
+            </details>
+
+          </div>
+
+        </article>
+
+      </div>
+
+      <!-- CONTROL DE PESO -->
+
+      <div class="col-12 col-md-6">
+
+        <article class="border rounded-4 shadow-sm bg-white h-100 overflow-hidden d-flex flex-column">
+
+          <img src="https://kamanpet.cl/wp-content/uploads/2024/04/control-de-peso-en-perros.webp"
+               alt="Control de peso de mascotas"
+               class="servicio-imagen"
+               loading="lazy">
+
+          <div class="p-4 d-flex flex-column flex-grow-1">
+
+            <h3 class="fs-3 fw-bold text-black mb-3">
+              Control de peso
+            </h3>
+
+            <p class="fs-5 text-black">
+              Promovemos una alimentación equilibrada
+              y hábitos saludables para tu mascota.
+            </p>
+
+            <details class="servicio-detalles mb-4">
+
+              <summary>Ver detalles del servicio</summary>
+
+              <p class="text-black mt-3">
+                Seguimiento de peso y condición corporal,
+                con recomendaciones de alimentación,
+                hábitos y revisiones para mejorar su bienestar.
+              </p>
+
+            </details>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </div>
+
+    <!-- BOTON GENERAL AL FINAL DE LOS SERVICIOS -->
+
+    <div class="row mt-5">
+
+      <div class="col-12">
+
+        <!-- USUARIO CON SESION INICIADA -->
+
+        <a *ngIf="auth.loggedIn()"
+           routerLink="/citas/agendar"
+           class="btn btn-success w-100 py-4 fs-4 fw-bold rounded-3">
+          Agendar cita
+
+        </a>
+
+        <!-- VISITANTE SIN SESION -->
+
+        <a *ngIf="!auth.loggedIn()"
+           routerLink="/login"
+           class="btn btn-success w-100 py-4 fs-4 fw-bold rounded-3">
+          Iniciar sesión para agendar cita
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- RECOMENDACIONES -->
+
+<section id="recomendaciones" class="recommendations-section py-5">
+
+  <div class="container-fluid px-3 px-md-4 px-xl-5">
+
+    <div class="text-center mb-5">
+
+      <span class="text-success fw-semibold text-uppercase small">
+        Recomendaciones
+      </span>
+
+      <h2 class="display-6 fw-bold mt-2 mb-3">
+        Experiencias de nuestros pacientes
+      </h2>
+
+      <p class="text-secondary fs-5">
+        Conoce las experiencias de nuestros clientes y sus mascotas.
+      </p>
+
+    </div>
+
+    <div class="kamur-reco-vista">
+
+      <!-- TARJETA ANTERIOR -->
+
+      <button type="button"
+              class="kamur-reco-lateral"
+              (click)="cambiarRecomendacion(-1)">
+
+        <img [src]="recomendacionAnterior.imagen"
+             [alt]="recomendacionAnterior.nombre">
+
+        <small>Anterior</small>
+
+        <strong>{{ recomendacionAnterior.nombre }}</strong>
+
+      </button>
+
+
+      <!-- TARJETA CENTRAL -->
+
+      <div class="kamur-reco-centro">
+
+        <article class="recommendation-card row g-0 kamur-reco-principal">
+
+          <div class="col-md-5 kamur-reco-foto">
+
+            <img [src]="recomendacionActual.imagen"
+                 [alt]="recomendacionActual.nombre"
+                 class="recommendation-photo">
+
+          </div>
+
+          <div class="col-md-7 kamur-reco-texto">
+
+            <div class="recommendation-rating mb-3">
+
+              <i *ngFor="let estrella of [1,2,3,4,5]"
+                 class="bi"
+                 [class.bi-star-fill]="estrella <= recomendacionActual.calificacion"
+                 [class.bi-star-half]="estrella > recomendacionActual.calificacion && estrella - 0.5 <= recomendacionActual.calificacion">
+              </i>
+
+              <span>
+                {{ recomendacionActual.calificacion.toFixed(1) }}
+              </span>
+
+            </div>
+
+            <h3 class="h3 fw-bold mb-3">
+              {{ recomendacionActual.nombre }}
+            </h3>
+
+            <p class="text-secondary mb-0">
+              "{{ recomendacionActual.comentario }}"
+            </p>
+
+          </div>
+
+        </article>
+
+        <!-- FLECHA IZQUIERDA -->
+
+        <button type="button"
+                class="kamur-reco-flecha kamur-reco-flecha-izq"
+                (click)="cambiarRecomendacion(-1)"
+                aria-label="Recomendación anterior">
+
+          <i class="bi bi-chevron-left"></i>
+
+        </button>
+
+        <!-- FLECHA DERECHA -->
+
+        <button type="button"
+                class="kamur-reco-flecha kamur-reco-flecha-der"
+                (click)="cambiarRecomendacion(1)"
+                aria-label="Siguiente recomendación">
+
+          <i class="bi bi-chevron-right"></i>
+
+        </button>
+
+      </div>
+
+
+      <!-- TARJETA SIGUIENTE -->
+
+      <button type="button"
+              class="kamur-reco-lateral"
+              (click)="cambiarRecomendacion(1)">
+
+        <img [src]="recomendacionSiguiente.imagen"
+             [alt]="recomendacionSiguiente.nombre">
+
+        <small>Siguiente</small>
+
+        <strong>{{ recomendacionSiguiente.nombre }}</strong>
+
+      </button>
+
+    </div>
+
+    <p class="text-center text-secondary small mt-3">
+
+      {{ indiceRecomendacion + 1 }}
+      de
+      {{ recomendaciones.length }}
+      recomendaciones
+
+    </p>
+
+  </div>
+
+</section>
+
+
+
+<!-- QUIENES SOMOS -->
+<section class="container-fluid px-3 px-md-4 px-xl-5 py-5 about-section"
+         aria-labelledby="aboutTitle">
+
+  <div class="text-center mx-auto public-section-heading mb-5">
+
+    <span class="text-success fw-semibold text-uppercase small">
+      Quiénes somos
+    </span>
+
+    <h2 id="aboutTitle" class="display-6 fw-bold mt-2 mb-3">
+      Nuestro compromiso con cada mascota
+    </h2>
+
+    <p class="text-secondary fs-5 mb-0">
+      Vet-Kamur combina atención veterinaria, prevención, orientación
+      y productos para acompañar a las familias en cada etapa
+      del cuidado de sus mascotas.
+    </p>
+
+  </div>
+
+  <!-- MISION Y VISION -->
+
+
+<div class="row g-4 mb-4">
+
+  <!-- MISION -->
+
+  <div class="col-12 col-lg-6">
+
+    <article class="identity-card h-100 overflow-hidden">
+
+      <!-- IMAGEN DE MISION -->
+
+      <img
+        src="https://www.expomedhub.com/img/blog/veterinario-vet.jpg"
+        alt="Atención veterinaria y cuidado de mascotas"
+        class="about-image-full"
+        loading="lazy">
+
+      <!-- CONTENIDO DE MISION -->
+
+      <div class="p-4 p-xl-5">
+
+        <span class="text-success fw-semibold text-uppercase">
+          MISIÓN
+        </span>
+
+        <h3 class="h3 fw-bold mt-3 mb-3">
+          Cuidar con responsabilidad y cercanía
+        </h3>
+
+        <p class="text-secondary fs-5 mb-0">
+          Brindar atención veterinaria integral, cálida y responsable,
+          promoviendo la prevención y el bienestar animal mediante
+          servicios accesibles, orientación clara y seguimiento oportuno.
+        </p>
+
+      </div>
+
+    </article>
+
+  </div>
+
+  <!-- VISION -->
+
+  <div class="col-12 col-lg-6">
+
+    <article class="identity-card h-100 overflow-hidden">
+
+      <!-- IMAGEN DE VISION -->
+
+      <img
+        src="https://cdn-3.expansion.mx/dims4/default/5f4fb66/2147483647/strip/true/crop/724x483+0+0/resize/1200x801!/quality/90/?url=https%3A%2F%2Fcdn-3.expansion.mx%2F25%2F6d%2Fa3d0b9864c02ac9012d14c2885c1%2Fistock-1489457497.jpg"
+        alt="Visión de crecimiento y atención veterinaria"
+        class="about-image-full"
+        loading="lazy">
+
+      <!-- CONTENIDO DE VISION -->
+
+      <div class="p-4 p-xl-5">
+
+        <span class="text-success fw-semibold text-uppercase">
+          VISIÓN
+        </span>
+
+        <h3 class="h3 fw-bold mt-3 mb-3">
+          Ser una veterinaria de referencia en la región
+        </h3>
+
+        <p class="text-secondary fs-5 mb-0">
+          Consolidarnos como una red veterinaria reconocida por
+          la confianza de nuestros clientes, la calidad de la
+          atención y el uso de soluciones digitales que hagan
+          más sencillo cuidar a sus mascotas.
+        </p>
+
+      </div>
+
+    </article>
+
+  </div>
+
+</div>
+
+
+  <!-- VALORES -->
+
+  <div class="container-fluid py-5 valores-fotos">
+
+    <div class="text-center mb-5">
+
+      <span class="text-success fw-semibold fs-5">
+        VALORES
+      </span>
+
+      <h3 class="display-6 fw-bold text-black mt-3">
+        Principios que guían nuestro trabajo
+      </h3>
+
+    </div>
+
+    <div class="row g-4">
+
+      <!-- BIENESTAR ANIMAL -->
+
+      <div class="col-12 col-lg-6">
+
+        <article class="border rounded-4 shadow-sm bg-white h-100 overflow-hidden">
+
+          <img src="imagenes/bienestar-animal.jpg"
+               alt="Bienestar animal"
+               class="valor-imagen valor-imagen-completa"
+               loading="lazy">
+
+          <div class="p-4">
+
+            <h4 class="fs-3 fw-bold text-black mb-3">
+              Bienestar animal
+            </h4>
+
+            <p class="fs-5 text-black mb-0">
+              La salud y calidad de vida de cada mascota
+              son nuestra prioridad.
+            </p>
+
+          </div>
+
+        </article>
+
+      </div>
+
+      <!-- RESPONSABILIDAD -->
+
+      <div class="col-12 col-lg-6">
+
+        <article class="border rounded-4 shadow-sm bg-white h-100 overflow-hidden">
+
+          <img src="imagenes/responsabilidad.jpg"
+               alt="Responsabilidad"
+               class="valor-imagen"
+               loading="lazy">
+
+          <div class="p-4">
+
+            <h4 class="fs-3 fw-bold text-black mb-3">
+              Responsabilidad
+            </h4>
+
+            <p class="fs-5 text-black mb-0">
+              Actuamos con cuidado, seguimiento y
+              compromiso en cada servicio.
+            </p>
+
+          </div>
+
+        </article>
+
+      </div>
+
+      <!-- EMPATIA -->
+
+      <div class="col-12 col-lg-6">
+
+        <article class="border rounded-4 shadow-sm bg-white h-100 overflow-hidden">
+
+          <img src="imagenes/empatia.jpeg"
+               alt="Empatía"
+               class="valor-imagen"
+               loading="lazy">
+
+          <div class="p-4">
+
+            <h4 class="fs-3 fw-bold text-black mb-3">
+              Empatía
+            </h4>
+
+            <p class="fs-5 text-black mb-0">
+              Escuchamos a las familias y tratamos
+              a cada mascota con respeto y sensibilidad.
+            </p>
+
+          </div>
+
+        </article>
+
+      </div>
+
+      <!-- CONFIANZA -->
+
+      <div class="col-12 col-lg-6">
+
+        <article class="border rounded-4 shadow-sm bg-white h-100 overflow-hidden">
+
+          <img src="imagenes/confianza.jpg"
+               alt="Confianza"
+               class="valor-imagen"
+               loading="lazy">
+
+          <div class="p-4">
+
+            <h4 class="fs-3 fw-bold text-black mb-3">
+              Confianza
+            </h4>
+
+            <p class="fs-5 text-black mb-0">
+              Comunicamos información clara para que
+              cada decisión sea comprensible.
+            </p>
+
+          </div>
+
+        </article>
+
+      </div>
+
+      <!-- CALIDAD -->
+
+      <div class="col-12 col-lg-6 mx-auto">
+
+        <article class="border rounded-4 shadow-sm bg-white h-100 overflow-hidden">
+
+          <img src="imagenes/calidad.jpg"
+               alt="Calidad"
+               class="valor-imagen"
+               loading="lazy">
+
+          <div class="p-4">
+
+            <h4 class="fs-3 fw-bold text-black mb-3">
+              Calidad
+            </h4>
+
+            <p class="fs-5 text-black mb-0">
+              Buscamos mejorar continuamente la atención
+              y la experiencia de nuestros clientes.
+            </p>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- CONTACTANOS -->
+
+<section id="contactanos" class="contact-section py-5">
+
+  <div class="container-fluid px-3 px-md-4 px-xl-5">
+
+    <div class="contact-panel p-4 p-lg-5">
+
+      <div class="row g-5 align-items-start">
+
+        <div class="col-lg-5">
+
+          <span class="text-success fw-semibold text-uppercase small">
+            Contáctanos
+          </span>
+
+          <h2 class="display-6 fw-bold mt-2 mb-3">
+            Recibe ayuda sin registrarte
+          </h2>
+
+          <p class="text-secondary fs-5">
+            Envíanos tu duda desde este formulario o comunícate directamente por correo o teléfono.
+            No necesitas una cuenta para pedir información o soporte.
+          </p>
+
+          <div class="public-contact-list mt-4">
+
+            <a [href]="'mailto:' + supportEmail"
+               class="text-decoration-none">
+
+              <i class="bi bi-envelope"></i>
+
+              <span>{{ supportEmail }}</span>
+
+            </a>
+
+            <a [href]="'tel:' + supportPhoneLink"
+               class="text-decoration-none">
+
+              <i class="bi bi-telephone"></i>
+
+              <span>{{ supportPhoneDisplay }}</span>
+
+            </a>
+
+            <div>
+
+              <i class="bi bi-clock"></i>
+
+              <span>
+                Lun–Vie 9:00–18:00 · Sáb 9:00–15:30
+              </span>
+
+            </div>
+
+            <div>
+
+              <i class="bi bi-geo-alt"></i>
+
+              <span>
+                Potrero · Córdoba · Cuitláhuac, Veracruz
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- FORMULARIO DE CONTACTO -->
+
+        <div class="col-lg-7">
+
+          <form class="contact-form-card"
+                [formGroup]="contactForm"
+                (ngSubmit)="sendContactRequest()"
+                novalidate>
+
+            <div class="row g-3">
+
+              <div class="col-md-6">
+
+                <label for="contactName" class="form-label fw-semibold">
+                  Nombre
+                </label>
+
+                <input id="contactName"
+                       class="form-control"
+                       formControlName="name"
+                       minlength="2"
+                       maxlength="100"
+                       required />
+
+                <div class="form-error"
+                     *ngIf="contactForm.controls.name.touched && contactForm.controls.name.invalid">
+                  Ingresa tu nombre.
+                </div>
+
+              </div>
+
+              <div class="col-md-6">
+
+                <label for="contactEmail" class="form-label fw-semibold">
+                  Correo electrónico
+                </label>
+
+                <input id="contactEmail"
+                       type="email"
+                       class="form-control"
+                       formControlName="email"
+                       maxlength="120"
+                       required />
+
+                <div class="form-error"
+                     *ngIf="contactForm.controls.email.touched && contactForm.controls.email.invalid">
+                  Ingresa un correo válido.
+                </div>
+
+              </div>
+
+              <div class="col-md-6">
+
+                <label for="contactPhone" class="form-label fw-semibold">
+                  Teléfono
+                  <span class="text-secondary fw-normal">(opcional)</span>
+                </label>
+
+                <input id="contactPhone"
+                       type="tel"
+                       class="form-control"
+                       formControlName="phone"
+                       maxlength="20"
+                       placeholder="Ej. 271 123 4567" />
+
+                <div class="form-error"
+                     *ngIf="contactForm.controls.phone.touched && contactForm.controls.phone.invalid">
+                  Ingresa un teléfono válido.
+                </div>
+
+              </div>
+
+              <div class="col-md-6">
+
+                <label for="contactSubject" class="form-label fw-semibold">
+                  Asunto
+                </label>
+
+                <input id="contactSubject"
+                       class="form-control"
+                       formControlName="subject"
+                       minlength="3"
+                       maxlength="120"
+                       required />
+
+                <div class="form-error"
+                     *ngIf="contactForm.controls.subject.touched && contactForm.controls.subject.invalid">
+                  Escribe el asunto.
+                </div>
+
+              </div>
+
+              <div class="col-12">
+
+                <label for="contactDetails" class="form-label fw-semibold">
+                  ¿Cómo podemos ayudarte?
+                </label>
+
+                <textarea id="contactDetails"
+                          class="form-control support-textarea"
+                          rows="5"
+                          formControlName="details"
+                          minlength="10"
+                          maxlength="1000"
+                          required></textarea>
+
+                <div class="form-error"
+                     *ngIf="contactForm.controls.details.touched && contactForm.controls.details.invalid">
+                  Escribe al menos 10 caracteres.
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="alert alert-success mt-3 mb-0"
+                 *ngIf="contactMessage">
+
+              {{ contactMessage }}
+
+            </div>
+
+            <button class="btn btn-success btn-lg mt-4 px-4"
+                    type="submit">
+
+              <i class="bi bi-send me-2"></i>
+              Enviar solicitud
+
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- INVITACION A INICIAR SESION -->
+
+<section id="inicio-sesion"
+         class="login-cta py-5"
+         *ngIf="!auth.loggedIn()">
+
+  <div class="container-fluid px-3 px-md-4 px-xl-5">
+
+    <div class="login-cta-card text-center mx-auto p-4 p-md-5">
+
+      <span class="text-success fw-semibold text-uppercase small">
+        Servicios privados
+      </span>
+
+      <h2 class="display-6 fw-bold mt-2 mb-3">
+        Inicia sesión cuando quieras agendar o comprar
+      </h2>
+
+      <p class="text-secondary fs-5 mb-4">
+        Puedes conocer Vet-Kamur, ver la tienda, consultar sucursales y pedir ayuda sin registrarte.
+        La cuenta solo es necesaria para citas, carrito, compras, mascotas y gestión personal.
+      </p>
+
+      <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+
+        <a routerLink="/login" class="btn btn-success btn-lg px-4">
+          Iniciar sesión
+        </a>
+
+        <a routerLink="/registro" class="btn btn-outline-success btn-lg px-4">
+          Registrarme
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>

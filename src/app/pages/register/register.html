@@ -1,0 +1,78 @@
+<section class="page-section py-5">
+  <div class="container">
+    <div class="form-card mx-auto p-4 p-md-5 shadow-sm">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <a routerLink="/login" class="btn btn-light"><i class="bi bi-arrow-left"></i></a>
+        <div class="text-center flex-grow-1">
+          <span class="text-success small fw-bold text-uppercase">Paso 1 de 2</span>
+          <h1 class="h2 fw-bold mb-0">Registro</h1>
+        </div>
+        <span class="spacer-40"></span>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="firstName" class="form-label fw-semibold">Nombre(s)</label>
+            <input id="firstName" class="form-control" formControlName="firstName" minlength="2" maxlength="60" autocomplete="given-name" required />
+            <div class="form-error" *ngIf="form.controls.firstName.touched && form.controls.firstName.invalid">
+              Ingresa tu nombre.
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="lastName" class="form-label fw-semibold">Apellidos</label>
+            <input id="lastName" class="form-control" formControlName="lastName" minlength="2" maxlength="80" autocomplete="family-name" required />
+            <div class="form-error" *ngIf="form.controls.lastName.touched && form.controls.lastName.invalid">
+              Ingresa tus apellidos.
+            </div>
+          </div>
+          <div class="col-12">
+            <label for="registerEmail" class="form-label fw-semibold">Correo electrónico</label>
+            <input id="registerEmail" type="email" class="form-control" formControlName="email" maxlength="120" autocomplete="email" required />
+            <div class="form-error" *ngIf="form.controls.email.touched && form.controls.email.invalid">
+              Ingresa un correo válido.
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="registerPassword" class="form-label fw-semibold">Contraseña</label>
+            <input id="registerPassword" type="password" class="form-control" formControlName="password" minlength="6" maxlength="60" autocomplete="new-password" required />
+            <div class="form-error" *ngIf="form.controls.password.touched && form.controls.password.invalid">
+              Mínimo 6 caracteres.
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="confirmPassword" class="form-label fw-semibold">Confirmar contraseña</label>
+            <input id="confirmPassword" type="password" class="form-control" formControlName="confirmPassword" minlength="6" maxlength="60" autocomplete="new-password" required />
+            <div class="form-error" *ngIf="form.controls.confirmPassword.touched && form.controls.confirmPassword.invalid">
+              Confirma tu contraseña.
+            </div>
+            <div class="form-error" *ngIf="form.touched && form.hasError('mismatch')">
+              Las contraseñas no coinciden.
+            </div>
+          </div>
+          <div class="col-12">
+            <label for="registerPhone" class="form-label fw-semibold">Teléfono</label>
+            <input
+              id="registerPhone"
+              type="tel"
+              class="form-control"
+              formControlName="phone"
+              placeholder="271 123 4567"
+              pattern="[0-9()+ -]{10,20}"
+              minlength="10"
+              maxlength="20"
+              autocomplete="tel"
+              required
+            />
+            <div class="form-error" *ngIf="form.controls.phone.touched && form.controls.phone.invalid">
+              Ingresa un teléfono válido.
+            </div>
+          </div>
+        </div>
+        <div class="d-flex gap-3 mt-4">
+          <a routerLink="/login" class="btn btn-outline-secondary flex-fill py-2">Cancelar</a>
+          <button class="btn btn-success flex-fill py-2" type="submit">Siguiente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

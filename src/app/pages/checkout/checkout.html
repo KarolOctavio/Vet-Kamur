@@ -1,0 +1,33 @@
+<section class="page-section py-5">
+  <div class="container narrow-container">
+    <a routerLink="/carrito" class="btn btn-light mb-3"><i class="bi bi-arrow-left me-1"></i>Carrito</a>
+    <div class="content-card p-4 p-md-5">
+      <div class="text-center mb-4">
+        <div class="icon-circle mx-auto mb-3"><i class="bi bi-credit-card"></i></div>
+        <span class="text-secondary">Total a pagar</span>
+        <div class="display-5 fw-bold">
+          {{ cart.total() | currency: 'MXN' : 'symbol-narrow' : '1.2-2' }}
+        </div>
+      </div>
+      <h1 class="h5 fw-bold mb-3">Selecciona un método de pago</h1>
+      <form #paymentForm="ngForm" (ngSubmit)="pay()">
+        <label class="payment-option">
+          <input type="radio" name="method" [(ngModel)]="method" value="/pago/tarjeta" required />
+          <i class="bi bi-credit-card-2-front"></i><span>Tarjeta de crédito / débito</span>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="method" [(ngModel)]="method" value="/pago/transferencia" required />
+          <i class="bi bi-bank"></i><span>Transferencia bancaria</span>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="method" [(ngModel)]="method" value="/pago/efectivo" required />
+          <i class="bi bi-cash-stack"></i><span>Efectivo en sucursal</span>
+        </label>
+        <div class="form-error mt-3" *ngIf="error || (paymentForm.submitted && !method)">
+          {{ error || 'Selecciona un método de pago.' }}
+        </div>
+        <button class="btn btn-success w-100 py-3 mt-4" type="submit">Continuar</button>
+      </form>
+    </div>
+  </div>
+</section>

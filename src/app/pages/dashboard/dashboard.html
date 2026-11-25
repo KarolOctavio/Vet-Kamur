@@ -1,0 +1,55 @@
+<section class="page-section py-5">
+  <div class="container-fluid px-3 px-md-4 px-xl-5">
+    <div
+      class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4"
+    >
+      <div>
+        <span class="text-success fw-semibold text-uppercase small">Panel principal</span>
+        <h1 class="display-6 fw-bold mb-1">¡Bienvenido a Vet-Kamur!</h1>
+        <p class="text-secondary mb-0">Gestiona el cuidado de tus mascotas desde aquí.</p>
+      </div>
+      <div class="d-flex flex-wrap gap-2">
+        <a routerLink="/soporte" class="btn btn-outline-success">
+          <i class="bi bi-headset me-2"></i>Soporte
+        </a>
+        <a routerLink="/citas/agendar" class="btn btn-success">
+          <i class="bi bi-calendar2-plus me-2"></i>Nueva cita
+        </a>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-sm-6 col-xl-3" *ngFor="let item of shortcuts">
+        <a [routerLink]="item[2]" class="shortcut-card text-decoration-none d-block h-100 p-4">
+          <div class="icon-circle mb-3"><i class="bi {{ item[0] }}"></i></div>
+          <h2 class="h5 text-dark fw-bold mb-1">{{ item[1] }}</h2>
+          <span class="text-success small fw-semibold">
+            Abrir sección <i class="bi bi-arrow-right"></i>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <article class="content-card dashboard-feature overflow-hidden">
+      <div class="row g-0 align-items-stretch">
+        <div class="col-lg-6">
+          <img src="imagenes/perros.jpg" alt="Mascotas atendidas por Vet-Kamur" class="dashboard-feature-photo" />
+        </div>
+        <div class="col-lg-6 d-flex align-items-center">
+          <div class="p-4 p-md-5 w-100">
+            <span class="text-success fw-semibold small text-uppercase">Noticias y consejos</span>
+            <h2 class="display-6 fw-bold mt-2 mb-3">La prevención empieza con revisiones periódicas</h2>
+            <p class="text-secondary fs-5 mb-4">
+              Mantén vacunas, desparasitación y revisiones generales al día para detectar cambios a
+              tiempo y cuidar el bienestar de tu mascota durante cada etapa de su vida.
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+              <a routerLink="/citas/agendar" class="btn btn-success">Agendar una revisión</a>
+              <a routerLink="/soporte" class="btn btn-outline-success">Solicitar ayuda</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

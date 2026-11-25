@@ -1,0 +1,51 @@
+<section class="page-section py-5">
+  <div class="container narrow-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <span class="text-success text-uppercase fw-semibold small">Compra</span>
+        <h1 class="h2 fw-bold mb-0">Carrito</h1>
+      </div>
+      <a routerLink="/tienda" class="btn btn-outline-success">Seguir comprando</a>
+    </div>
+    <div *ngIf="cart.items().length; else empty">
+      <div class="content-card p-3 p-md-4">
+        <div class="cart-row" *ngFor="let item of cart.items()">
+          <img [src]="item.product.image" [alt]="item.product.name" (error)="catalog.imageFallback($event, item.product)" />
+          <div class="flex-grow-1">
+            <h2 class="h5 fw-bold mb-1">{{ item.product.name }}</h2>
+            <div class="price">
+              {{ item.product.price | currency: 'MXN' : 'symbol-narrow' : '1.2-2' }}
+            </div>
+            <div class="quantity-control mt-2">
+              <button (click)="cart.update(item.product.id, -1)">−</button
+              ><span>{{ item.quantity }}</span
+              ><button (click)="cart.update(item.product.id, 1)">+</button>
+            </div>
+          </div>
+          <button
+            class="btn btn-light text-danger"
+            (click)="cart.remove(item.product.id)"
+            aria-label="Eliminar"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+        <div class="d-flex justify-content-between align-items-center border-top pt-4 mt-3">
+          <span class="h5 mb-0">Total</span
+          ><strong class="h3 mb-0">{{
+            cart.total() | currency: 'MXN' : 'symbol-narrow' : '1.2-2'
+          }}</strong>
+        </div>
+        <a routerLink="/pago" class="btn btn-success btn-lg w-100 mt-4">Continuar al pago</a>
+      </div>
+    </div>
+    <ng-template #empty
+      ><div class="empty-state">
+        <i class="bi bi-cart-x"></i>
+        <h2 class="h4 fw-bold">Tu carrito está vacío</h2>
+        <p class="text-secondary">Agrega productos desde la tienda para continuar.</p>
+        <a routerLink="/tienda" class="btn btn-success">Ir a la tienda</a>
+      </div></ng-template
+    >
+  </div>
+</section>

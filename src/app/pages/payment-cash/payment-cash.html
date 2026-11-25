@@ -1,0 +1,18 @@
+<section class="page-section py-5">
+  <div class="container narrow-container">
+    <a routerLink="/pago" class="btn btn-light mb-3"><i class="bi bi-arrow-left me-1"></i>Pago</a>
+    <div class="success-card text-center p-4 p-md-5 mx-auto">
+      <div class="icon-circle mx-auto mb-3"><i class="bi bi-cash-stack"></i></div>
+      <h1 class="h2 fw-bold">Pago en efectivo</h1>
+      <p class="fs-5 fw-semibold mb-1">Tu pago fue generado con éxito.</p>
+      <p class="text-secondary">Presenta el siguiente QR en caja de la sucursal para pagar.</p>
+      <img
+        src="imagenes/qr-pago.png"
+        alt="Código QR de pago en efectivo"
+        class="qr-image my-3"
+      /><button class="btn btn-outline-success w-100" (click)="save()">
+        <i class="bi bi-download me-2"></i>Guardar QR</button
+      ><button class="btn btn-success w-100 mt-2" (click)="finish()">Regresar al inicio</button>
+    </div>
+  </div>
+</section>

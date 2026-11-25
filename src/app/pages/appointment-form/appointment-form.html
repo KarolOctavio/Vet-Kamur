@@ -1,0 +1,78 @@
+<section class="page-section py-5">
+  <div class="container">
+    <div class="form-card appointment-card mx-auto p-4 p-md-5 shadow-sm">
+      <div class="d-flex align-items-center mb-4">
+        <a routerLink="/citas" class="btn btn-light me-3"><i class="bi bi-arrow-left"></i></a>
+        <div>
+          <span class="text-success small fw-bold text-uppercase">Agenda en línea</span>
+          <h1 class="h2 fw-bold mb-0">{{ reprogramId ? 'Reprogramar cita' : 'Agendar cita' }}</h1>
+        </div>
+      </div>
+
+      <div class="schedule-info mb-4">
+        <div><i class="bi bi-calendar-week"></i><strong>Lunes a viernes:</strong> 9:00 a.m. – 6:00 p.m.</div>
+        <div><i class="bi bi-calendar2-check"></i><strong>Sábado:</strong> 9:00 a.m. – 3:30 p.m.</div>
+        <div><i class="bi bi-calendar2-x"></i><strong>Domingo:</strong> cerrado</div>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="appointmentPet" class="form-label fw-semibold">Mascota</label>
+            <select id="appointmentPet" class="form-select" formControlName="pet" required>
+              <option value="">Selecciona una mascota</option>
+              <option>Luna</option>
+              <option>Milo</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="appointmentService" class="form-label fw-semibold">Servicio</label>
+            <select id="appointmentService" class="form-select" formControlName="service" required>
+              <option value="">Selecciona un servicio</option>
+              <option>Consulta general</option>
+              <option>Vacunación</option>
+              <option>Desparasitación</option>
+              <option>Control de peso</option>
+              <option>Estética y cuidado</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="appointmentDate" class="form-label fw-semibold">Fecha</label>
+            <input id="appointmentDate" type="date" class="form-control" [min]="minDate" formControlName="date" required />
+            <div class="form-error" *ngIf="form.controls.date.touched && form.controls.date.hasError('pastDate')">
+              No puedes agendar una cita en una fecha anterior a hoy.
+            </div>
+            <div class="form-error" *ngIf="form.controls.date.touched && form.controls.date.hasError('sunday')">
+              Los domingos no se agendan citas.
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="appointmentTime" class="form-label fw-semibold">Hora</label>
+            <select id="appointmentTime" class="form-select" formControlName="time" required>
+              <option value="">Selecciona un horario</option>
+              <option *ngFor="let t of times" [value]="t">{{ t }}</option>
+            </select>
+            <div class="small text-secondary mt-2">{{ scheduleMessage }}</div>
+          </div>
+          <div class="col-12">
+            <label for="appointmentNotes" class="form-label fw-semibold">Notas adicionales <span class="text-secondary fw-normal">(opcional)</span></label>
+            <textarea
+              id="appointmentNotes"
+              rows="5"
+              maxlength="500"
+              class="form-control"
+              formControlName="notes"
+              placeholder="Describe síntomas, motivo de consulta o indicaciones importantes"
+            ></textarea>
+          </div>
+        </div>
+        <div class="form-error mt-3" *ngIf="form.invalid && form.touched">
+          Revisa los campos obligatorios y selecciona una fecha y un horario disponibles.
+        </div>
+        <button class="btn btn-success w-100 py-3 mt-4 fw-semibold">
+          {{ reprogramId ? 'Guardar cambios' : 'Agendar cita' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

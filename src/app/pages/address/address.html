@@ -1,0 +1,54 @@
+<section class="page-section py-5">
+  <div class="container">
+    <div class="form-card mx-auto p-4 p-md-5 shadow-sm">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <a routerLink="/registro" class="btn btn-light"><i class="bi bi-arrow-left"></i></a>
+        <div class="text-center flex-grow-1">
+          <span class="text-success small fw-bold text-uppercase">Paso 2 de 2</span>
+          <h1 class="h2 fw-bold mb-0">Dirección</h1>
+        </div>
+        <span class="spacer-40"></span>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="row g-3">
+          <div class="col-md-5">
+            <label for="postalCode" class="form-label fw-semibold">Código Postal (CP)</label>
+            <input id="postalCode" inputmode="numeric" pattern="[0-9]{5}" minlength="5" maxlength="5" class="form-control" formControlName="postalCode" autocomplete="postal-code" required />
+            <div class="form-error" *ngIf="form.controls.postalCode.touched && form.controls.postalCode.invalid">Ingresa un CP de 5 dígitos.</div>
+          </div>
+          <div class="col-md-7">
+            <label for="city" class="form-label fw-semibold">Ciudad</label>
+            <input id="city" class="form-control" formControlName="city" minlength="2" maxlength="80" autocomplete="address-level2" required />
+            <div class="form-error" *ngIf="form.controls.city.touched && form.controls.city.invalid">Ingresa la ciudad.</div>
+          </div>
+          <div class="col-12">
+            <label for="neighborhood" class="form-label fw-semibold">Colonia</label>
+            <input id="neighborhood" class="form-control" formControlName="neighborhood" minlength="2" maxlength="100" autocomplete="address-level3" required />
+            <div class="form-error" *ngIf="form.controls.neighborhood.touched && form.controls.neighborhood.invalid">Ingresa la colonia.</div>
+          </div>
+          <div class="col-12">
+            <label for="street" class="form-label fw-semibold">Calle</label>
+            <input id="street" class="form-control" formControlName="street" minlength="2" maxlength="120" autocomplete="street-address" required />
+            <div class="form-error" *ngIf="form.controls.street.touched && form.controls.street.invalid">Ingresa la calle.</div>
+          </div>
+          <div class="col-md-6">
+            <label for="exterior" class="form-label fw-semibold">Número exterior</label>
+            <input id="exterior" class="form-control" formControlName="exterior" maxlength="20" required />
+            <div class="form-error" *ngIf="form.controls.exterior.touched && form.controls.exterior.invalid">Ingresa el número exterior.</div>
+          </div>
+          <div class="col-md-6">
+            <label for="interior" class="form-label fw-semibold">Número interior <span class="text-secondary fw-normal">(opcional)</span></label>
+            <input id="interior" class="form-control" formControlName="interior" maxlength="20" />
+          </div>
+        </div>
+        <div class="form-error mt-3" *ngIf="form.invalid && form.touched">
+          Revisa los campos marcados antes de crear la cuenta.
+        </div>
+        <div class="d-flex gap-3 mt-4">
+          <a routerLink="/registro" class="btn btn-outline-secondary flex-fill py-2">Atrás</a>
+          <button class="btn btn-success flex-fill py-2" type="submit">Crear cuenta</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,78 @@
+<section class="page-section py-5">
+  <div class="container">
+    <a routerLink="/tienda" class="btn btn-light mb-4">
+      <i class="bi bi-arrow-left me-1"></i>Tienda
+    </a>
+
+    <div class="row g-5 align-items-center" *ngIf="product; else missingProduct">
+      <div class="col-lg-6">
+        <div class="product-detail-image">
+          <img
+            [src]="product.image"
+            [alt]="product.name"
+            (error)="catalog.imageFallback($event, product)"
+          />
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <span class="text-success fw-semibold">{{ product.category }}</span>
+        <h1 class="display-6 fw-bold mt-2">{{ product.name }}</h1>
+        <div class="price display-6 mb-2">
+          {{ product.price | currency: 'MXN' : 'symbol-narrow' : '1.2-2' }}
+        </div>
+        <p class="text-secondary mb-4">
+          {{ product.stock > 0 ? product.stock + ' unidades disponibles' : 'Producto agotado' }}
+        </p>
+
+        <h2 class="h5 fw-bold">Descripción</h2>
+        <p class="text-secondary fs-5">{{ product.description }}</p>
+
+        <ng-container *ngIf="auth.loggedIn(); else loginToBuy">
+          <div
+            class="d-flex align-items-center justify-content-between border-top border-bottom py-3 my-4"
+            *ngIf="product.stock > 0"
+          >
+            <span class="fw-semibold">Cantidad</span>
+            <div class="quantity-control">
+              <button (click)="dec()" aria-label="Disminuir">−</button>
+              <span>{{ quantity }}</span>
+              <button (click)="inc()" aria-label="Aumentar">+</button>
+            </div>
+          </div>
+          <button
+            class="btn btn-success btn-lg w-100"
+            [disabled]="product.stock === 0"
+            (click)="add()"
+          >
+            <i class="bi bi-cart-plus me-2"></i>{{ product.stock > 0 ? 'Agregar al carrito' : 'Sin existencias' }}
+          </button>
+          <a routerLink="/carrito" class="btn btn-outline-secondary btn-lg w-100 mt-2">
+            Ir al carrito
+          </a>
+        </ng-container>
+
+        <ng-template #loginToBuy>
+          <div class="guest-action-box mt-4">
+            <i class="bi bi-lock"></i>
+            <div>
+              <strong>Inicia sesión para comprar</strong>
+              <p class="mb-3 text-secondary">
+                Puedes revisar toda la información del producto sin cuenta. Solo necesitas iniciar sesión al momento de comprar.
+              </p>
+              <a routerLink="/login" class="btn btn-success me-2">Iniciar sesión</a>
+              <a routerLink="/registro" class="btn btn-outline-success">Registrarme</a>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <ng-template #missingProduct>
+      <div class="empty-state">
+        <i class="bi bi-bag-x"></i>
+        <h1 class="h4 fw-bold">Producto no disponible</h1>
+        <a routerLink="/tienda" class="btn btn-success">Volver a la tienda</a>
+      </div>
+    </ng-template>
+  </div>
+</section>

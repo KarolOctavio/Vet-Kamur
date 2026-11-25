@@ -2198,3 +2198,31 @@ html {
     height: 260px;
   }
 }
+
+/* MENU DESPLEGABLE DEL NAVBAR */
+
+.main-navbar .dropdown-menu {
+  background-color: #ffffff;
+  border: 1px solid #dce5d8;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.main-navbar .dropdown-item {
+  color: #4d6727;
+  font-weight: 600;
+  padding: 11px 15px;
+  border-radius: 8px;
+}
+
+.main-navbar .dropdown-item:hover,
+.main-navbar .dropdown-item:focus {
+  background-color: #e2f0d9;
+  color: #4d6727;
+}
+/* DESPLAZAMIENTO A VALORES */
+
+#valores {
+  scroll-margin-top: 100px;
+}

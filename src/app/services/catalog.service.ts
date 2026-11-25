@@ -1,3 +1,4 @@
+
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -12,6 +13,7 @@ export interface Product {
   badge?: string;
   fallback: string;
 }
+
 export type ProductInput = Omit<Product, 'id'>;
 
 interface FakeStoreProduct {
@@ -23,102 +25,292 @@ interface FakeStoreProduct {
   image: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class CatalogService {
+
   private readonly http = inject(HttpClient);
+
   private readonly key = 'vetkamur_fakestore_catalog';
+
+  // Guarda los identificadores de productos eliminados
+  private readonly deletedKey = 'vetkamur_productos_eliminados';
+
   private readonly productState = signal<Product[]>([]);
 
+  private readonly deletedIds = new Set<number>(
+    this.readDeletedIds()
+  );
+
   constructor() {
-    // Se consulta la API en cada inicio; no se usan productos predefinidos.
-    this.http.get<FakeStoreProduct[]>('https://fakestoreapi.com/products').subscribe({
+
+    // Recuperar productos guardados anteriormente
+    const saved = this.read() ?? [];
+
+    this.productState.set(
+      saved.filter(product => !this.deletedIds.has(product.id))
+    );
+
+    // Consultar los productos de FakeStore API
+    this.http.get<FakeStoreProduct[]>(
+      'https://fakestoreapi.com/products'
+    ).subscribe({
+
       next: (data) => {
-        const saved = this.read();
-        const products = data.map((p): Product => {
-          const local = saved?.find((item) => item.id === p.id);
-          return {
-            id: p.id,
-            name: p.title,
-            category: p.category,
-            price: p.price,
-            stock: local?.stock ?? 20,
-            image: p.image,
-            description: p.description,
-            fallback: 'imagenes/producto-alimento.svg',
-          };
-        });
-        this.productState.set(products);
+
+        const localProducts = this.read() ?? [];
+
+        const localById = new Map(
+          localProducts.map(product => [product.id, product])
+        );
+
+        // No cargar productos eliminados
+        const apiProducts: Product[] = data
+          .filter(product => !this.deletedIds.has(product.id))
+          .map(product => {
+
+            const local = localById.get(product.id);
+
+            return {
+              id: product.id,
+              name: local?.name ?? product.title,
+              category: local?.category ?? product.category,
+              price: local?.price ?? product.price,
+              stock: local?.stock ?? 20,
+              image: local?.image ?? product.image,
+              description: local?.description ?? product.description,
+              badge: local?.badge,
+              fallback: local?.fallback ??
+                'imagenes/producto-alimento.svg'
+            };
+
+          });
+
+        // Conservar productos creados desde Panel Admin
+        const apiIds = new Set(
+          data.map(product => product.id)
+        );
+
+        const customProducts = localProducts.filter(
+          product =>
+            !apiIds.has(product.id) &&
+            !this.deletedIds.has(product.id)
+        );
+
+        this.save([
+          ...apiProducts,
+          ...customProducts
+        ]);
+
       },
-      error: (error) => console.error('No se pudieron cargar los productos de FakeStore API', error),
+
+      error: (error) => {
+        console.error(
+          'No se pudieron cargar los productos de FakeStore API',
+          error
+        );
+      }
+
     });
+
   }
+
+  // OBTENER TODOS LOS PRODUCTOS
 
   get products(): Product[] {
     return this.productState();
   }
 
-  getById(id: number) {
-    return this.products.find((p) => p.id === id);
+  // BUSCAR PRODUCTO POR ID
+
+  getById(id: number): Product | undefined {
+    return this.products.find(product => product.id === id);
   }
 
+  // AGREGAR PRODUCTO
+
   add(product: ProductInput): Product {
-    const products = this.products;
-    const created: Product = { ...product, id: Date.now() };
-    products.push(created);
-    this.save(products);
+
+    const created: Product = {
+      ...product,
+      id: Date.now()
+    };
+
+    this.save([
+      ...this.products,
+      created
+    ]);
+
     return created;
   }
 
-  update(id: number, changes: Partial<Omit<Product, 'id'>>): Product | null {
+  // ACTUALIZAR PRODUCTO
+
+  update(
+    id: number,
+    changes: Partial<Omit<Product, 'id'>>
+  ): Product | null {
+
     let updated: Product | null = null;
-    const products = this.products.map((product) => {
-      if (product.id !== id) return product;
+
+    const products = this.products.map(product => {
+
+      if (product.id !== id) {
+        return product;
+      }
+
       updated = {
         ...product,
         ...changes,
-        price: changes.price !== undefined ? Math.max(0, Number(changes.price)) : product.price,
-        stock: changes.stock !== undefined ? Math.max(0, Math.floor(Number(changes.stock))) : product.stock,
+        price: changes.price !== undefined
+          ? Math.max(0, Number(changes.price))
+          : product.price,
+        stock: changes.stock !== undefined
+          ? Math.max(0, Math.floor(Number(changes.stock)))
+          : product.stock
       };
+
       return updated;
     });
-    this.save(products);
+
+    if (updated !== null) {
+      this.save(products);
+    }
+
     return updated;
   }
 
+  // ELIMINAR PRODUCTO
+
   remove(id: number): boolean {
-    const products = this.products;
-    const next = products.filter((product) => product.id !== id);
-    if (next.length === products.length) return false;
-    this.save(next);
+
+    const exists = this.products.some(
+      product => product.id === id
+    );
+
+    if (!exists) {
+      return false;
+    }
+
+    // Recordar el producto eliminado
+    this.deletedIds.add(id);
+
+    localStorage.setItem(
+      this.deletedKey,
+      JSON.stringify([...this.deletedIds])
+    );
+
+    // Quitar el producto de la tienda
+    const products = this.products.filter(
+      product => product.id !== id
+    );
+
+    this.save(products);
+
     return true;
   }
 
-  reduceStock(items: Array<{ id: number; quantity: number }>) {
-    const quantityById = new Map(items.map((item) => [item.id, item.quantity]));
-    const products = this.products.map((product) => {
+  // REDUCIR EXISTENCIAS
+
+  reduceStock(
+    items: Array<{ id: number; quantity: number }>
+  ): void {
+
+    const quantityById = new Map(
+      items.map(item => [item.id, item.quantity])
+    );
+
+    const products = this.products.map(product => {
+
       const quantity = quantityById.get(product.id) ?? 0;
-      return quantity > 0 ? { ...product, stock: Math.max(0, product.stock - quantity) } : product;
+
+      return quantity > 0
+        ? {
+            ...product,
+            stock: Math.max(0, product.stock - quantity)
+          }
+        : product;
+
     });
+
     this.save(products);
   }
 
-  imageFallback(event: Event, product: Product) {
+  // IMAGEN ALTERNATIVA
+
+  imageFallback(event: Event, product: Product): void {
+
     const image = event.target as HTMLImageElement;
-    if (image.src.endsWith(product.fallback)) return;
+
+    if (image.src.endsWith(product.fallback)) {
+      return;
+    }
+
     image.src = product.fallback;
   }
 
+  // LEER PRODUCTOS GUARDADOS
+
   private read(): Product[] | null {
+
     try {
+
       const raw = localStorage.getItem(this.key);
-      if (!raw) return null;
+
+      if (!raw) {
+        return null;
+      }
+
       const parsed = JSON.parse(raw);
+
       return Array.isArray(parsed) ? parsed : null;
-    } catch { return null; }
+
+    } catch {
+      return null;
+    }
   }
 
-  private save(products: Product[]) {
-    this.productState.set(products);
-    localStorage.setItem(this.key, JSON.stringify(products));
+  // LEER IDENTIFICADORES DE PRODUCTOS ELIMINADOS
+
+  private readDeletedIds(): number[] {
+
+    try {
+
+      const raw = localStorage.getItem(this.deletedKey);
+
+      if (!raw) {
+        return [];
+      }
+
+      const parsed: unknown = JSON.parse(raw);
+
+      if (!Array.isArray(parsed)) {
+        return [];
+      }
+
+      return parsed.filter(
+        (id): id is number =>
+          typeof id === 'number' &&
+          Number.isInteger(id) &&
+          id > 0
+      );
+
+    } catch {
+      return [];
+    }
   }
+
+  // GUARDAR CAMBIOS EN EL CATALOGO
+
+  private save(products: Product[]): void {
+
+    this.productState.set(products);
+
+    localStorage.setItem(
+      this.key,
+      JSON.stringify(products)
+    );
+  }
+
 }
